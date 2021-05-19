@@ -8,8 +8,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -17,9 +21,13 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
-public class UserSignUp extends AppCompatActivity {
+import org.w3c.dom.Text;
+
+public class UserSignUp extends BaseActivity {
     MaterialEditText PacientNumber, PacientName, PacientSurname, Age, LivingCity;
     Button btnUser;
+    TextView errorField;
+
     DatabaseReference table_user;
 
     @Override
@@ -32,9 +40,14 @@ public class UserSignUp extends AppCompatActivity {
         Age = (MaterialEditText)findViewById(R.id.Age);
         LivingCity = (MaterialEditText)findViewById(R.id.LivingCity);
         btnUser = (Button)findViewById(R.id.btnUser);
+        errorField = (TextView)findViewById(R.id.textView);
 
         //Init Firebase
-         table_user = FirebaseDatabase.getInstance().getReference().child("User");
+        initializeFirebaseAuth();
+
+        //Write error in the screen
+        String error = getIntent().getStringExtra("ERROR_MSG");
+        if(error!=null && !error.isEmpty())errorField.setText(error);
         btnUser.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -45,15 +58,21 @@ public class UserSignUp extends AppCompatActivity {
             }
         });
     }
-    private void insertUserData() {
-       
-        int pacientNumber = Integer.parseInt(PacientNumber.getText().toString());
-        String pacientName = PacientName.getText().toString();
-        String pacientSurname = PacientSurname.getText().toString();
-        String city = LivingCity.getText().toString();
-        int age = Integer.parseInt(Age.getText().toString());
-        User user = new User(pacientName, pacientSurname, pacientNumber, city, age);
 
+
+    private void insertUserData() {
+       try {
+           int pacientNumber = Integer.parseInt(PacientNumber.getText().toString());
+           String pacientName = PacientName.getText().toString();
+           String pacientSurname = PacientSurname.getText().toString();
+           String city = LivingCity.getText().toString();
+           int age = Integer.parseInt(Age.getText().toString());
+           User user = new User(pacientName, pacientSurname, pacientNumber, city, age);
+           signUp(user);
+       }
+       catch(Exception ex){
+           System.out.println(ex.getMessage());
+       }
 //        if (table_user.child(String.valueOf(pacientNumber)).exists()){
 //        table_user.push().setValue(user);
 //        Toast.makeText(UserSignUp.this, "User Signed Up Successfully!", Toast.LENGTH_LONG).show();}
