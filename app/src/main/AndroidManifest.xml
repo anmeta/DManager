@@ -12,10 +12,13 @@
         android:roundIcon="@mipmap/background"
         android:supportsRtl="true"
         android:theme="@style/Theme.DManager">
-        <activity android:name=".RestListActivity"></activity>
+        <activity
+            android:name=".ui.login.LoginActivity"
+            android:label="@string/title_activity_login"></activity>
+        <activity android:name=".RestListActivity" />
         <activity android:name=".restHome" />
         <activity android:name=".userHome" />
-        <activity android:name=".RestActivity" />
+        <activity android:name=".RestaurantSignUp" />
         <activity android:name=".UserSignUp" />
         <activity android:name=".SplashScreen" />
         <activity android:name=".MainActivity">

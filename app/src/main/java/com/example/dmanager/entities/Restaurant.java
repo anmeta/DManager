@@ -1,14 +1,14 @@
-package com.example.dmanager;
+package com.example.dmanager.entities;
 
-public class Restaurants {
+public class Restaurant {
     String RestaurantName;
-    Integer RestaurantPhone;
+    String RestaurantPhone;
     String RestaurantCity;
     Integer RestaurantStreetNr;
     String RestaurantStreet;
 
-    public Restaurants(){}
-    public Restaurants(String RestaurantName,Integer RestaurantPhone,String RestaurantCity,Integer RestaurantStreetNr, String RestaurantStreet){
+    public Restaurant(){}
+    public Restaurant(String RestaurantName,String RestaurantPhone,String RestaurantCity,Integer RestaurantStreetNr, String RestaurantStreet){
         this.RestaurantName= RestaurantName;
         this.RestaurantPhone= RestaurantPhone;
         this.RestaurantCity= RestaurantCity;
@@ -24,11 +24,11 @@ public class Restaurants {
         RestaurantName = restaurantName;
     }
 
-    public Integer getRestaurantPhone() {
+    public String getRestaurantPhone() {
         return RestaurantPhone;
     }
 
-    public void setRestaurantPhone(Integer restaurantPhone) {
+    public void setRestaurantPhone(String restaurantPhone) {
         RestaurantPhone = restaurantPhone;
     }
 

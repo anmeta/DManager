@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/bakingg"
 
-    tools:context=".RestActivity">
+    tools:context=".RestaurantSignUp">
 
     <LinearLayout
         android:orientation="vertical"

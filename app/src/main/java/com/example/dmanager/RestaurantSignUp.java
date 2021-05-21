@@ -9,15 +9,13 @@ import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
+import com.example.dmanager.entities.Restaurant;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
-public class RestActivity extends AppCompatActivity {
+public class RestaurantSignUp extends BaseActivity {
     MaterialEditText RestaurantName, RestaurantCity, RestaurantPhone, RestaurantStNumber;
     Spinner RestaurantStreet;
-    Button btnRest;
-    DatabaseReference rest_table;
+    Button btnSignUpRestaurant;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,31 +26,23 @@ public class RestActivity extends AppCompatActivity {
             RestaurantPhone= (MaterialEditText)findViewById(R.id.RestaurantPhone);
             RestaurantStreet=findViewById(R.id.RestaurantStreet);
             RestaurantStNumber= (MaterialEditText)findViewById(R.id.RestaurantStNumber);
-            btnRest = (Button)findViewById(R.id.btnRest);
+            btnSignUpRestaurant = (Button)findViewById(R.id.btnRest);
 
-            //Init Firebase
-            rest_table = FirebaseDatabase.getInstance().getReference().child("Restaurants");
-
-            btnRest.setOnClickListener(new View.OnClickListener() {
+            btnSignUpRestaurant.setOnClickListener(new View.OnClickListener() {
 
 
                 @Override
                 public void onClick(View view) {
-
-                    insertRestData();
-                    Intent RestHome = new Intent(RestActivity.this, restHome.class);
-                    startActivity(RestHome);
+                    insertRestaurantData();
                 }
             });
         }
-        private void insertRestData() {
+        private void insertRestaurantData() {
             String name = RestaurantName.getText().toString();
             String city = RestaurantCity.getText().toString();
-            int phone = Integer.parseInt(RestaurantPhone.getText().toString());
+            String phone = RestaurantPhone.getText().toString();
             String street = RestaurantStreet.getSelectedItem().toString();
             int streetNr = Integer.parseInt(RestaurantStNumber.getText().toString());
-            Restaurants restaurants= new Restaurants();
-            rest_table.push().setValue(restaurants);
-            Toast.makeText(RestActivity.this, "Restaurant Signed Up Successfully!", Toast.LENGTH_LONG).show();
+            signUpRestaurant(new Restaurant(name, phone, city, streetNr, street));
         }
     }

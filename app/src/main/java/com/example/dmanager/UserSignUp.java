@@ -1,28 +1,14 @@
 package com.example.dmanager;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.example.dmanager.entities.User;
 import com.example.dmanager.helpers.StaticHelpers;
-import com.google.firebase.FirebaseApp;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.rengwuxian.materialedittext.MaterialEditText;
-
-import org.w3c.dom.Text;
 
 public class UserSignUp extends BaseActivity {
     MaterialEditText PacientNumber, PacientName, PacientSurname, Age, LivingCity;
@@ -53,8 +39,6 @@ public class UserSignUp extends BaseActivity {
             @Override
             public void onClick(View view) {
                     insertUserData();
-                    Intent HomeUser = new Intent(UserSignUp.this, userHome.class);
-                    startActivity(HomeUser);
             }
         });
     }
@@ -67,7 +51,7 @@ public class UserSignUp extends BaseActivity {
            String pacientSurname = PacientSurname.getText().toString();
            String city = LivingCity.getText().toString();
            int age = Integer.parseInt(Age.getText().toString());
-           if(!hasOnlyDigits(pacientNumber)){
+           if(!isValidAmka(pacientNumber)){
                Intent userSignUp = new Intent(UserSignUp.this, UserSignUp.class);
                userSignUp.putExtra("ERROR_MSG", StaticHelpers.GetInvalidPatientNumberErrorMsg());
                startActivity(userSignUp);

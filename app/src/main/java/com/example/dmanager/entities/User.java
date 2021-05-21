@@ -1,11 +1,11 @@
-package com.example.dmanager;
+package com.example.dmanager.entities;
 
 public class User {
-    String PacientName;
-    String PacientSurname;
-    String PacientNumber;
-    String LivingCity;
-    Integer Age;
+    public String PacientName;
+    public String PacientSurname;
+    public String PacientNumber;
+    public String LivingCity;
+    public Integer Age;
     public User(){
 
    }

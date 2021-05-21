@@ -1,21 +1,17 @@
 package com.example.dmanager;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
 
-import com.google.android.gms.common.internal.service.Common;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
 public class MainActivity extends BaseActivity {
-    Button btnUser, btnRest;
-    private DatabaseReference userRef;
+    Button btnUser, btnRest, loginButton;
+    EditText userNumber;//it could be Amka or restaurant phone number
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,15 +19,10 @@ public class MainActivity extends BaseActivity {
         setContentView(R.layout.activity_main);
         initializeFirebaseAuth();
         FirebaseUser currentUser = mAuth.getCurrentUser();
-        if(currentUser!=null){
-            //User is already logged in
-            Intent SignUpUser = new Intent(MainActivity.this, UserSignUp.class);
-            startActivity(SignUpUser);
-            return;
-        }
         btnUser = (Button)findViewById(R.id.btnUser);
         btnRest = (Button)findViewById(R.id.btnRest);
-
+        userNumber = findViewById(R.id.username);
+        loginButton = findViewById(R.id.login);
         btnUser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -39,11 +30,22 @@ public class MainActivity extends BaseActivity {
                 startActivity(SignUpUser);
             }
         });
-
+        loginButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String number = userNumber.getText().toString();
+                if(isValidAmka(number) || isValidPhoneNumber(number)) {
+                    signIn(userNumber.getText().toString());
+                }
+                else{
+                    Toast.makeText(MainActivity.this, "Please write a valid number!", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
         btnRest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent SignUpRest = new Intent(MainActivity.this, RestActivity.class);
+                Intent SignUpRest = new Intent(MainActivity.this, RestaurantSignUp.class);
                 startActivity(SignUpRest
                 );
             }
