@@ -29,7 +29,6 @@ public class UserSignUp extends BaseActivity {
     Button btnUser;
     TextView errorField;
 
-    DatabaseReference table_user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,35 +79,5 @@ public class UserSignUp extends BaseActivity {
        catch(Exception ex){
            System.out.println(ex.getMessage());
        }
-//        if (table_user.child(String.valueOf(pacientNumber)).exists()){
-//        table_user.push().setValue(user);
-//        Toast.makeText(UserSignUp.this, "User Signed Up Successfully!", Toast.LENGTH_LONG).show();}
-//    }
-    
-//    private void UserSignUp(int pacientNumber, String pacientName, String pacientSurname, String city, int age){
-//        ProgressDialog mDialog = new ProgressDialog(UserSignUp.this);
-//        mDialog.setMessage("Please wait..");
-//        mDialog.show();
-//        
-//        String Name = pacientName;
-//        int number = pacientNumber;
-//        String Surname = pacientSurname;
-//        String City= city;
-//        int Age = age;
-//        
-//        table_user.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                User user = 
-//                
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {
-//
-//            }
-//        });
-//        
-//        
-//    }
+
 }}

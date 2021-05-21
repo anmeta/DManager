@@ -20,11 +20,15 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class BaseActivity extends AppCompatActivity {
 
     protected FirebaseAuth mAuth;
     protected FirebaseFirestore db;
+
     protected void initializeFirebaseAuth() {
         mAuth = FirebaseAuth.getInstance();
     }

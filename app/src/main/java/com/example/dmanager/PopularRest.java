@@ -9,6 +9,8 @@ public class PopularRest {
         this.name = name;
         this.location = location;
         this.rating = rating;
+
+
     }
 
     public String getName() {
@@ -34,4 +36,7 @@ public class PopularRest {
     public void setRating(Integer imageUrl) {
         this.rating = rating;
     }
+
+
+
 }

@@ -1,32 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
     app:cardCornerRadius="5dp"
     android:elevation="25dp"
-    android:layout_marginStart="15dp"
-    android:layout_marginLeft="15dp">
+    android:layout_marginTop="16dp"
+    >
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
-
         <ImageView
-            android:id="@+id/rest_img"
+            android:id="@+id/food_img"
             android:layout_width="414dp"
             android:layout_height="257dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.666"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/rest1" />
+            app:srcCompat="@drawable/food" />
 
         <TextView
-            android:id="@+id/rest1"
+            android:id="@+id/orderName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="4dp"
@@ -42,7 +39,7 @@
             tools:layout_editor_absoluteY="268dp" />
 
         <TextView
-            android:id="@+id/street"
+            android:id="@+id/Restname"
             android:layout_width="115dp"
             android:layout_height="28dp"
             android:fontFamily="sans-serif-black"
@@ -57,6 +54,5 @@
             app:layout_constraintTop_toTopOf="@+id/rest1"
             app:layout_constraintVertical_bias="0.0"
             tools:ignore="MissingConstraints" />
-
     </androidx.constraintlayout.widget.ConstraintLayout>
-</androidx.cardview.widget.CardView>
+    </androidx.cardview.widget.CardView>

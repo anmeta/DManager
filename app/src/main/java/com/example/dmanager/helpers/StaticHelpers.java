@@ -11,4 +11,5 @@ public class StaticHelpers {
     public static String GetInvalidPatientNumberErrorMsg() {
         return "Please write a valid AMKA!";
     }
+
 }

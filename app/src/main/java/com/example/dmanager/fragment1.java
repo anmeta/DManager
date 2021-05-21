@@ -26,6 +26,7 @@ public class fragment1 extends Fragment {
     RecyclerView popularRecycler;
     RecyclerView visitedRecycler;
     PopularRestAdapter popularRestAdapter;
+    RecentlyVisitedAdapter recentlyVisitedAdapter;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -83,6 +84,15 @@ public class fragment1 extends Fragment {
         setPopularRecycler(popularRestList);
 
 
+        popularRestList.add(new PopularRest("Restaurant 1", "Tsimiski 25", R.drawable.rest1));
+        popularRestList.add(new PopularRest("Restaurant 2", "Venizelou 20", R.drawable.rest2));
+        popularRestList.add(new PopularRest("Restaurant 3", "Agia Sofias 9", R.drawable.rest3));
+        setPopularRecycler(popularRestList);
+
+        List<RecentlyVisited> recentlyVisitedList = new ArrayList<>();
+        recentlyVisitedList.add(new RecentlyVisited("Food 1", "Tsimiski 25", R.drawable.food));
+        recentlyVisitedList.add(new RecentlyVisited("Food 2", "Tsimiski 26", R.drawable.food1));
+        setRecentlyRecycler(recentlyVisitedList);
 
         return view;
     }
@@ -96,6 +106,13 @@ public class fragment1 extends Fragment {
     }
 
 
+    private  void setRecentlyRecycler(List<RecentlyVisited> recentlyVisitedList){
+        visitedRecycler= visitedRecycler.findViewById(R.id.popular_viewer);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this.getContext(), RecyclerView.HORIZONTAL, false);
+        visitedRecycler.setLayoutManager(layoutManager);
+        recentlyVisitedAdapter = new RecentlyVisitedAdapter(this.getContext(), recentlyVisitedList);
+        visitedRecycler.setAdapter(recentlyVisitedAdapter);
+    }
     public void change(String text, String text1){
        home.setText(text);
        rests.setText(text1);

@@ -21,6 +21,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
 
+            android:layout_marginStart="20dp"
+            android:layout_marginLeft="20dp"
             android:hint="ΑΜΚΑ"
             android:inputType="number"
             android:textColor="@android:color/white"
@@ -37,6 +39,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
 
+            android:layout_marginStart="20dp"
+            android:layout_marginLeft="20dp"
             android:hint="Age"
             android:inputType="number"
             android:textColor="@android:color/white"
@@ -53,6 +57,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
 
+            android:layout_marginStart="20dp"
+            android:layout_marginLeft="20dp"
             android:hint="City"
             android:inputType="text"
             android:textColor="@android:color/white"
@@ -69,6 +75,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
 
+            android:layout_marginStart="20dp"
+            android:layout_marginLeft="20dp"
             android:hint="Name"
             android:inputType="textPersonName"
             android:textColor="@android:color/white"
@@ -85,6 +93,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
 
+            android:layout_marginStart="20dp"
+            android:layout_marginLeft="20dp"
             android:hint="Surname"
             android:inputType="textPersonName"
             android:textColor="@android:color/white"

@@ -34,6 +34,9 @@ public class PopularRestAdapter extends RecyclerView.Adapter<PopularRestAdapter.
     public void onBindViewHolder(@NonNull PopularRestHolder holder, int position) {
 
 
+        holder.rating.setImageResource(PopularRests.get(position).getRating());
+        holder.restName.setText(PopularRests.get(position).getName());
+        holder.restPlace.setText(PopularRests.get(position).getLocation());
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -49,12 +52,20 @@ public class PopularRestAdapter extends RecyclerView.Adapter<PopularRestAdapter.
         return PopularRests.size();
     }
 
-    public static final class PopularRestHolder extends RecyclerView.ViewHolder{
+    public static final class PopularRestHolder extends RecyclerView.ViewHolder {
 
 
-      public PopularRestHolder(@NonNull View itemView) {
-          super(itemView);
+        public ImageView rating;
+        public TextView restName;
+        public TextView restPlace;
 
-      }
-  }
+        public PopularRestHolder(@NonNull View itemView) {
+            super(itemView);
+
+
+            rating = itemView.findViewById(R.id.rest_img);
+            restName = itemView.findViewById(R.id.rest1);
+            restPlace = itemView.findViewById(R.id.street);
+        }
+    }
 }
