@@ -4,6 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".restHome">
+    tools:context=".ui.restaurants.RestaurantsFragment">
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/restaurantsRecyclerViewer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:layout_editor_absoluteX="198dp"
+        tools:layout_editor_absoluteY="298dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -59,4 +59,7 @@ public class User {
     public void setAge(Integer age) {
         Age = age;
     }
+    public String getFullName(){
+        return this.PacientName + " " + this.getPacientSurname();
+    }
 }

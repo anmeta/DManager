@@ -11,6 +11,7 @@ import com.example.dmanager.entities.Restaurant;
 import com.example.dmanager.entities.User;
 import com.example.dmanager.helpers.Context;
 import com.example.dmanager.helpers.StaticHelpers;
+import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -85,36 +86,34 @@ public class BaseActivity extends AppCompatActivity {
     }
 
 
-    protected void signIn(String userNumber){
+    protected Task signIn(String userNumber){
         try {
             if (mAuth == null) initializeFirebaseAuth();
 
             String composedEmail = userNumber.concat("@dmanager.com");
-            mAuth.signInWithEmailAndPassword(composedEmail, StaticHelpers.GetSecretPassword())
-            .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                @Override
-                public void onComplete(@NonNull Task<AuthResult> task) {
-                    if(task.isSuccessful()){
-                        // user has logged in
-                        // get data for user
-                        if(isValidAmka(userNumber)) {
-                            getUserData(userNumber);
+            return mAuth.signInWithEmailAndPassword(composedEmail, StaticHelpers.GetSecretPassword())
+                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if (task.isSuccessful()) {
+                                // user has logged in
+                                if (isValidAmka(userNumber)) {
+                                    prepareUserContext(userNumber);
+                                } else if (isValidPhoneNumber(userNumber)) {
+                                    getRestaurantData(userNumber);
+                                }
+                                // redirect user to homepage based on the category (user, restorant)
+                            } else {
+                                Toast.makeText(BaseActivity.this, "We can't find a user with this AMKA!", Toast.LENGTH_SHORT).show();
+                            }
                         }
-                        else if(isValidPhoneNumber(userNumber)) {
-                            getRestaurantData(userNumber);
-                        }
-                        // redirect user to homepage based on the category (user, restorant)
-                    }
-                    else{
-                        Toast.makeText(BaseActivity.this, "We can't find a user with this AMKA!", Toast.LENGTH_SHORT).show();
-                    }
-                }
-            });
+                    });
 
         }
         catch (Exception ex){
             System.out.println(ex.getMessage());
         }
+        return null;
     }
 
     private void getRestaurantData(String userNumber) {
@@ -138,8 +137,9 @@ public class BaseActivity extends AppCompatActivity {
                                         Integer.parseInt(document.get("restaurantStreetNr").toString()),
                                         document.get("restaurantStreet").toString()
                                 );
-                                //TODO: redirect to RestaurantActivity
-
+                                //Redirect to RestaurantActivity
+                                Intent main = new Intent(BaseActivity.this, RestaurantActivity.class);
+                                startActivity(main);
                             });
                         }
                     }
@@ -150,12 +150,52 @@ public class BaseActivity extends AppCompatActivity {
             Toast.makeText(BaseActivity.this, "We can't find the data for this restaurant! Please try again later!", Toast.LENGTH_SHORT).show();
         }
     }
-    private void getUserData(String amka) {
+    private void prepareUserContext(String amka) {
+        try {
+            getUserData(amka).continueWith(new Continuation() {
+                @Override
+                public Object then(Task task) throws Exception {
+                    // Once the task is complete, unblock the test thread, so it can inspect for errors/results.
+                    if (task != null && task.isSuccessful() && Context.getInstance().activeUser != null) {
+                        // get restaurant and redirect to user activity
+                        CollectionReference dbRestaurants = db.collection("Restaurants");
+                        dbRestaurants.get().addOnSuccessListener(restaurants -> {
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                                restaurants.forEach(restaurant -> {
+                                    Context.getInstance().addRestaurant(
+                                            new Restaurant(
+                                                    restaurant.get("restaurantName").toString(),
+                                                    "",
+                                                    restaurant.get("restaurantCity").toString(),
+                                                    Integer.parseInt(restaurant.get("restaurantStreetNr").toString()),
+                                                    restaurant.get("restaurantStreet").toString()
+                                            )
+                                    );
+                                });
+                            }
+                        });
+                        //Redirect to user activity
+                        Intent main = new Intent(BaseActivity.this, UserActivity.class);
+                        startActivity(main);
+                    }
+                    return null;
+                }
+
+            });
+        }
+        catch (Exception ex) {
+            Toast.makeText(BaseActivity.this, "Something went wrong! Please try again later!", Toast.LENGTH_SHORT).show();
+        }
+
+    }
+
+
+    private Task getUserData(String amka) {
         try {
             initializeFirestore();
             CollectionReference dbUsers = db.collection("Users");
             // Create a query against the collection.
-            dbUsers.whereEqualTo("pacientNumber", amka)
+            return dbUsers.whereEqualTo("pacientNumber", amka)
                     .limit(1)
                     .get().addOnSuccessListener(documents -> {
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
@@ -171,8 +211,6 @@ public class BaseActivity extends AppCompatActivity {
                                         document.get("city").toString(),
                                         Integer.parseInt(document.get("age").toString())
                                         );
-                                //TODO: redirect to UserActivity
-
                             });
                         }
                     }
@@ -182,6 +220,7 @@ public class BaseActivity extends AppCompatActivity {
         catch(Exception ex){
             Toast.makeText(BaseActivity.this, "We can't find the data for this user! Please try again later!", Toast.LENGTH_SHORT).show();
         }
+        return null;
     }
     protected void initializeFirestore(){
         if(db==null){
@@ -203,7 +242,8 @@ public class BaseActivity extends AppCompatActivity {
                     // we are displaying a success toast message.
                     Toast.makeText(BaseActivity.this, "Your account has been created!", Toast.LENGTH_SHORT).show();
 
-                    Intent main = new Intent(BaseActivity.this, MainActivity.class);
+                    //Redirect to user activity
+                    Intent main = new Intent(BaseActivity.this, UserActivity.class);
                     startActivity(main);
                 }
             }).addOnFailureListener(new OnFailureListener() {
@@ -234,7 +274,8 @@ public class BaseActivity extends AppCompatActivity {
                     // we are displaying a success toast message.
                     Toast.makeText(BaseActivity.this, "Your restaurant account has been created!", Toast.LENGTH_SHORT).show();
 
-                    Intent main = new Intent(BaseActivity.this, MainActivity.class);
+                    //Redirect to restaurant activity
+                    Intent main = new Intent(BaseActivity.this, RestaurantActivity.class);
                     startActivity(main);
                 }
             }).addOnFailureListener(new OnFailureListener() {

@@ -26,7 +26,7 @@ public class UserSignUp extends BaseActivity {
         Age = (MaterialEditText)findViewById(R.id.Age);
         LivingCity = (MaterialEditText)findViewById(R.id.LivingCity);
         btnUser = (Button)findViewById(R.id.btnUser);
-        errorField = (TextView)findViewById(R.id.textView);
+        errorField = (TextView)findViewById(R.id.welcomeView);
 
         //Init Firebase
         initializeFirebaseAuth();
