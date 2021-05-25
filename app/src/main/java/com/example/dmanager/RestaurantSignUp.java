@@ -9,8 +9,7 @@ import com.example.dmanager.entities.Restaurant;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
 public class RestaurantSignUp extends BaseActivity {
-    MaterialEditText RestaurantName, RestaurantCity, RestaurantPhone, RestaurantStNumber;
-    Spinner RestaurantStreet;
+    MaterialEditText RestaurantName, RestaurantCity,RestaurantStreet , RestaurantStNumber,RestaurantPhone;
     Button btnSignUpRestaurant;
 
     @Override
@@ -37,7 +36,7 @@ public class RestaurantSignUp extends BaseActivity {
             String name = RestaurantName.getText().toString();
             String city = RestaurantCity.getText().toString();
             String phone = RestaurantPhone.getText().toString();
-            String street = RestaurantStreet.getSelectedItem().toString();
+            String street = RestaurantStreet.getText().toString();
             int streetNr = Integer.parseInt(RestaurantStNumber.getText().toString());
             signUpRestaurant(new Restaurant(name, phone, city, streetNr, street));
         }
