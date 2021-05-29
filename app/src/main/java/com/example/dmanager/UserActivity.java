@@ -18,7 +18,6 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 public class UserActivity extends BaseActivity {
@@ -79,7 +78,7 @@ public class UserActivity extends BaseActivity {
                 //TODO: save lastViewedRestaurants in Firestore
 
                 Context.getInstance().cleanContext();
-                Intent main = new Intent(UserActivity.this, MainActivity.class);
+                Intent main = new Intent(UserActivity.this, LoginActivity.class);
                 startActivity(main);
                 return true;
             default:

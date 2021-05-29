@@ -5,11 +5,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/bakingg"
-    tools:context=".MainActivity">
+    tools:context=".LoginActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/container"
-        android:layout_width="350dp"
+        android:layout_width="wrap_content"
         android:layout_height="468dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
@@ -27,31 +27,46 @@
         tools:context=".ui.login.LoginActivity">
 
         <EditText
-            android:id="@+id/username"
-            android:layout_width="300dp"
+            android:id="@+id/email"
+            android:layout_width="match_parent"
             android:layout_height="52dp"
-            android:layout_marginStart="24dp"
-            android:layout_marginTop="96dp"
-            android:layout_marginEnd="24dp"
-            android:hint="@string/prompt_number"
+            android:hint="@string/action_email"
             android:inputType="textEmailAddress"
+            android:selectAllOnFocus="true"
+            android:textColor="#FFFFFF"
+            android:textColorHint="#AFA6A6"
+            app:layout_constraintBottom_toTopOf="@+id/password"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.74"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.907" />
+
+        <EditText
+            android:id="@+id/password"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:layout_marginTop="96dp"
+            android:hint="@string/action_password"
+            android:inputType="textPassword"
             android:selectAllOnFocus="true"
             android:textColor="#FFFFFF"
             android:textColorHint="#AFA6A6"
             app:layout_constraintBottom_toTopOf="@+id/login"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.129" />
+            app:layout_constraintVertical_bias="0.171" />
 
         <Button
             android:id="@+id/login"
             android:layout_width="293dp"
-            android:layout_height="61dp"
+            android:layout_height="63dp"
             android:layout_gravity="start"
             android:layout_marginStart="48dp"
             android:layout_marginEnd="48dp"
-            android:layout_marginBottom="200dp"
+            android:layout_marginBottom="180dp"
             android:background="@color/btnRest"
             android:enabled="true"
             android:text="@string/action_sign_in"
@@ -108,24 +123,6 @@
             android:textColor="@android:color/white"
             app:cornerRadius="4dp"></Button>
     </LinearLayout>
-
-    <TextView
-        android:id="@+id/medicalCard"
-        android:layout_width="184dp"
-        android:layout_height="34dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="146dp"
-        android:layout_marginLeft="146dp"
-        android:layout_marginBottom="16dp"
-        android:shadowColor="@color/white"
-        android:text="Go to Medical Cards"
-        android:textColor="@color/white"
-        android:textColorHighlight="@color/white"
-        android:textColorLink="@color/colorAccent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
 
 
 </RelativeLayout>

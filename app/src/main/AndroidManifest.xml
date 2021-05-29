@@ -12,7 +12,6 @@
         android:roundIcon="@mipmap/background"
         android:supportsRtl="true"
         android:theme="@style/Theme.DManager">
-        <activity android:name=".MedicalCardActivity"></activity>
         <activity
             android:name=".UserActivity"
             android:label="@string/title_activity_user"
@@ -24,7 +23,7 @@
         <activity android:name=".RestaurantSignUp" />
         <activity android:name=".UserSignUp" />
         <activity android:name=".SplashScreen" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

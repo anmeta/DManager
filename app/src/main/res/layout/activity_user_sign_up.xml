@@ -9,33 +9,33 @@
     tools:context=".UserSignUp">
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginStart="12dp"
-        android:layout_marginLeft="12dp"
-        android:layout_marginTop="97dp"
-        android:layout_marginEnd="-4dp"
-        android:layout_marginRight="8dp"
-        android:orientation="vertical"
-        android:layout_alignParentRight="true">
+        android:layout_alignParentRight="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="28dp"
+        android:layout_marginLeft="22dp"
+        android:layout_marginTop="1dp"
+        android:layout_marginEnd="21dp"
+        android:layout_marginRight="21dp"
+        android:orientation="vertical">
 
         <com.rengwuxian.materialedittext.MaterialEditText
             android:id="@+id/PacientNumber"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
 
-            android:layout_marginStart="20dp"
-            android:layout_marginLeft="20dp"
+
             android:hint="ΑΜΚΑ"
             android:inputType="number"
             android:textColor="@android:color/white"
-            android:textColorHint="@android:color/white"
-            android:textSize="24dp"
-            app:met_baseColor="@android:color/white"
+            android:textColorHint="@color/white"
+            android:textSize="24sp"
+            app:met_baseColor="@color/white"
             app:met_floatingLabel="highlight"
             app:met_maxCharacters="11"
             app:met_primaryColor="@android:color/white"
@@ -44,15 +44,14 @@
         <com.rengwuxian.materialedittext.MaterialEditText
             android:id="@+id/Age"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
 
-            android:layout_marginStart="20dp"
-            android:layout_marginLeft="20dp"
+
             android:hint="Age"
             android:inputType="number"
             android:textColor="@android:color/white"
             android:textColorHint="@android:color/white"
-            android:textSize="24dp"
+            android:textSize="24sp"
             app:met_baseColor="@android:color/white"
             app:met_floatingLabel="highlight"
             app:met_maxCharacters="20"
@@ -62,10 +61,9 @@
         <com.rengwuxian.materialedittext.MaterialEditText
             android:id="@+id/LivingCity"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
 
-            android:layout_marginStart="20dp"
-            android:layout_marginLeft="20dp"
+
             android:hint="City"
             android:inputType="text"
             android:textColor="@android:color/white"
@@ -80,10 +78,9 @@
         <com.rengwuxian.materialedittext.MaterialEditText
             android:id="@+id/PacientName"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
 
-            android:layout_marginStart="20dp"
-            android:layout_marginLeft="20dp"
+
             android:hint="Name"
             android:inputType="textPersonName"
             android:textColor="@android:color/white"
@@ -98,12 +95,11 @@
         <com.rengwuxian.materialedittext.MaterialEditText
             android:id="@+id/PacientSurname"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
 
-            android:layout_marginStart="20dp"
-            android:layout_marginLeft="20dp"
+
             android:hint="Surname"
-            android:inputType="textPersonName"
+            android:inputType="text"
             android:textColor="@android:color/white"
             android:textColorHint="@android:color/white"
             android:textSize="24dp"
@@ -112,11 +108,45 @@
             app:met_maxCharacters="20"
             app:met_primaryColor="@android:color/white"
             app:met_singleLineEllipsis="true" />
+
+        <com.rengwuxian.materialedittext.MaterialEditText
+            android:id="@+id/Email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+
+            android:hint="Email"
+            android:inputType="text|textEmailAddress"
+            android:textColor="@android:color/white"
+            android:textColorHint="@android:color/white"
+            android:textSize="24dp"
+            app:met_baseColor="@android:color/white"
+            app:met_floatingLabel="highlight"
+            app:met_primaryColor="@android:color/white"
+            app:met_singleLineEllipsis="true" />
+
+        <com.rengwuxian.materialedittext.MaterialEditText
+            android:id="@+id/Password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+
+            android:hint="Password"
+            android:inputType="text"
+            android:textColor="@android:color/white"
+            android:textColorHint="@android:color/white"
+            android:textSize="24dp"
+            app:met_baseColor="@android:color/white"
+            app:met_floatingLabel="highlight"
+            app:met_maxCharacters="20"
+            app:met_minCharacters="8"
+            app:met_primaryColor="@android:color/white"
+            app:met_singleLineEllipsis="true" />
     </LinearLayout>
 
     <Button
         android:id="@+id/btnUser"
-        android:layout_width="266dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
@@ -124,37 +154,16 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginStart="65dp"
-        android:layout_marginLeft="65dp"
+        android:layout_marginStart="22dp"
+        android:layout_marginLeft="22dp"
         android:layout_marginTop="79dp"
-        android:layout_marginEnd="80dp"
-        android:layout_marginRight="80dp"
-        android:layout_marginBottom="49dp"
+        android:layout_marginEnd="26dp"
+        android:layout_marginRight="26dp"
+        android:layout_marginBottom="20dp"
         android:layout_weight="1"
-        android:background="@color/btnUser"
+        android:background="@color/colorPrimaryDark"
         android:shadowColor="@android:color/black"
         android:text="Sign Up"
         android:textColor="@android:color/white"
         app:cornerRadius="4dp" />
-
-    <TextView
-        android:id="@+id/welcomeView"
-        android:layout_width="wrap_content"
-        android:layout_height="66dp"
-        android:layout_above="@id/btnUser"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginStart="20dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="19dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginBottom="504dp"
-        android:textColor="#86EFEF"
-        android:visibility="visible" />
-
 </RelativeLayout>

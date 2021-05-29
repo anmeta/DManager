@@ -31,8 +31,8 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Recycl
     }
     @Override
     public void onBindViewHolder(RecyclerItemViewHolder holder, final int position) {
-        holder.etTitleTextView.setText(restaurants.get(position).getRestaurantName());
-        holder.etDescriptionTextView.setText(restaurants.get(position).getRestaurantCity());
+        holder.etTitleTextView.setText(restaurants.get(position).RestaurantName);
+        holder.etDescriptionTextView.setText(restaurants.get(position).RestaurantCity);
         holder.crossImage.setImageResource(R.drawable.ic_menu_send);
         mLastPosition =position;
     }

@@ -5,13 +5,14 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.dmanager.entities.User;
 import com.example.dmanager.helpers.StaticHelpers;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
 public class UserSignUp extends BaseActivity {
-    MaterialEditText PacientNumber, PacientName, PacientSurname, Age, LivingCity;
+    MaterialEditText PacientNumber, PacientName, PacientSurname, Age, LivingCity, Email, Password;
     Button btnUser;
     TextView errorField;
 
@@ -25,15 +26,14 @@ public class UserSignUp extends BaseActivity {
         PacientSurname = (MaterialEditText)findViewById(R.id.PacientSurname);
         Age = (MaterialEditText)findViewById(R.id.Age);
         LivingCity = (MaterialEditText)findViewById(R.id.LivingCity);
+        Email = (MaterialEditText)findViewById(R.id.Email);
+        Password = (MaterialEditText)findViewById(R.id.Password);
         btnUser = (Button)findViewById(R.id.btnUser);
-        errorField = (TextView)findViewById(R.id.welcomeView);
-
-        //Init Firebase
-        initializeFirebaseAuth();
 
         //Write error in the screen
         String error = getIntent().getStringExtra("ERROR_MSG");
-        if(error!=null && !error.isEmpty())errorField.setText(error);
+        if(error!=null && !error.isEmpty())
+            Toast.makeText(UserSignUp.this, error, Toast.LENGTH_SHORT).show();
         btnUser.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -50,6 +50,8 @@ public class UserSignUp extends BaseActivity {
            String pacientName = PacientName.getText().toString();
            String pacientSurname = PacientSurname.getText().toString();
            String city = LivingCity.getText().toString();
+           String email = Email.getText().toString();
+           String password = Password.getText().toString();
            int age = Integer.parseInt(Age.getText().toString());
            if(!isValidAmka(pacientNumber)){
                Intent userSignUp = new Intent(UserSignUp.this, UserSignUp.class);
@@ -57,7 +59,7 @@ public class UserSignUp extends BaseActivity {
                startActivity(userSignUp);
                return;
            }
-           User user = new User(pacientName, pacientSurname, pacientNumber, city, age);
+           User user = new User(pacientName, pacientSurname, pacientNumber, city, age, email, password);
            signUp(user);
        }
        catch(Exception ex){
