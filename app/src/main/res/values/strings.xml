@@ -37,4 +37,11 @@
     <string name="menu_home">Home</string>
     <string name="menu_gallery">Gallery</string>
     <string name="menu_restaurants">Restaurants</string>
+    <string name="title_activity_restaurant">Restaurant</string>
+    <string name="menu_slideshow">Slideshow</string>
+    <string name="menu_update">Update</string>
+    <string name="menu_menu">Menu</string>
+
+
+
 </resources>

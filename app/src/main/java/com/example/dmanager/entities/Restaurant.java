@@ -27,4 +27,7 @@ public class Restaurant {
         this.RestaurantStreetNr =RestaurantStreetNr;
         this.RestaurantStreet= RestaurantStreet;
     }
+    public String getFullName(){
+        return this.RestaurantName + " " ;
+    }
 }

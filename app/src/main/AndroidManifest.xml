@@ -13,13 +13,16 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.DManager">
         <activity
+            android:name=".RestaurantActivity"
+            android:label="@string/title_activity_restaurant"
+            android:theme="@style/Theme.DManager.NoActionBar"></activity>
+        <activity
             android:name=".UserActivity"
             android:label="@string/title_activity_user"
             android:theme="@style/Theme.DManager.NoActionBar" />
         <activity
             android:name=".ui.login.LoginActivity"
             android:label="@string/title_activity_login" />
-        <activity android:name=".RestaurantActivity" />
         <activity android:name=".RestaurantSignUp" />
         <activity android:name=".UserSignUp" />
         <activity android:name=".SplashScreen" />

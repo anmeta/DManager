@@ -2,8 +2,6 @@ package com.example.dmanager;
 
 import android.content.Intent;
 import android.os.Build;
-import android.service.autofill.RegexValidator;
-import android.widget.ExpandableListAdapter;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -19,13 +17,14 @@ import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.SuccessContinuation;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+
+import org.jetbrains.annotations.Nullable;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -111,6 +110,7 @@ public class BaseActivity extends AppCompatActivity {
                         }
                     });
     }
+    @Nullable
     private Task prepareContext(String email, String password) {
         try {
             initializeFirestore();

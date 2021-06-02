@@ -20,6 +20,8 @@ import androidx.navigation.ui.NavigationUI;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.widget.Toolbar;
 
+import org.jetbrains.annotations.NotNull;
+
 public class UserActivity extends BaseActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
@@ -71,7 +73,7 @@ public class UserActivity extends BaseActivity {
                 || super.onSupportNavigateUp();
     }
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(@NotNull MenuItem item) {
         // Handle item selection
         switch (item.getItemId()) {
             case R.id.action_logout:
