@@ -50,8 +50,7 @@ public class LoginActivity extends BaseActivity {
                     String passwordStr = password.getText().toString();
                     loginButton.setText("Signing in ...");
                     loginButton.setEnabled(false);
-                    signIn(emailStr, passwordStr).wait();
-                    loginButton.setText("Sign in");
+                    signIn(emailStr, passwordStr);
                     loginButton.setEnabled(true);
                 }
                 catch (Exception ex){

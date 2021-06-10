@@ -1,31 +1,26 @@
 package com.example.dmanager;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
-
-import com.example.dmanager.helpers.Context;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.TextView;
 
-public class RestaurantActivity extends BaseActivity {
+import androidx.appcompat.widget.Toolbar;
+
+import com.example.dmanager.helpers.Context;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+public class MenuActivity extends BaseActivity {
     LinearLayout layout;
     ListView details;
-    Button openMenu;
+    Button addItem;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_restaurant);
+        setContentView(R.layout.activity_menu);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         toolbar.setTitle(Context.getInstance().activeRestaurant.getFullName());
@@ -35,7 +30,7 @@ public class RestaurantActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
                 Context.getInstance().cleanContext();
-                Intent main = new Intent(RestaurantActivity.this, LoginActivity.class);
+                Intent main = new Intent(MenuActivity.this, LoginActivity.class);
                 startActivity(main);
             }
         });
@@ -44,15 +39,16 @@ public class RestaurantActivity extends BaseActivity {
         details = (ListView)findViewById(R.id.details);
         ArrayAdapter<String> arrayAdapter =
                 new ArrayAdapter<String>(this,
-                        R.layout.detail_item, R.id.detail, Context.getInstance().activeRestaurant.getDetails());
+                        R.layout.detail_item, R.id.detail, Context.getInstance().activeRestaurant.getMenuItems());
         details.setAdapter(arrayAdapter);
 
-        openMenu = findViewById(R.id.openMenu).findViewById(R.id.button);
-        openMenu.setOnClickListener(new View.OnClickListener() {
+        addItem = findViewById(R.id.addItem).findViewById(R.id.button);
+        addItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent main = new Intent(RestaurantActivity.this, MenuActivity.class);
-                startActivity(main);
+
+//                Intent main = new Intent(RestaurantActivity.this, MenuActivity.class);
+//                startActivity(main);
             }
         });
 

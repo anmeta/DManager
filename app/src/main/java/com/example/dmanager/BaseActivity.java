@@ -7,6 +7,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.dmanager.entities.MenuItem;
 import com.example.dmanager.entities.Restaurant;
 import com.example.dmanager.entities.User;
 import com.example.dmanager.entities.UserRole;
@@ -21,8 +22,11 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import org.jetbrains.annotations.Nullable;
 
@@ -99,7 +103,7 @@ public class BaseActivity extends AppCompatActivity {
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()) {
                                 try {
-                                prepareContext(email, password).wait();
+                                    prepareContext(email, password).wait();
                                 }
                                 catch(Exception ex) {
                                     System.out.println("Something went wrong. Try again later!");
@@ -161,6 +165,21 @@ public class BaseActivity extends AppCompatActivity {
                                         document.get("Email").toString(),
                                         document.get("Password").toString()
                                 );
+
+                                document.getReference().collection("Menu").get().addOnSuccessListener(items -> {
+                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                                        items.forEach(item -> {
+                                            MenuItem menuItem = new MenuItem();
+                                            menuItem.ItemPrice = item.get("ItemPrice").toString();
+                                            menuItem.ItemDescription = item.get("ItemDescription").toString();
+                                            menuItem.ItemIngredients = item.get("ItemIngredients").toString();
+                                            menuItem.ItemName = item.get("ItemName").toString();
+
+                                            Context.getInstance().activeRestaurant.MenuItems.add(menuItem);
+                                        });
+                                    }
+                                });
+
                                 //Redirect to RestaurantActivity
                                 Intent main = new Intent(BaseActivity.this, RestaurantActivity.class);
                                 startActivity(main);

@@ -10,7 +10,6 @@ public class RestaurantsViewModel extends ViewModel {
 
     public RestaurantsViewModel() {
         mText = new MutableLiveData<>();
-        mText.setValue("Here we will list of restaurants");
     }
 
     public LiveData<String> getText() {
