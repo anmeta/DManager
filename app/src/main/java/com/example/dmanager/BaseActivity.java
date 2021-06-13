@@ -1,15 +1,13 @@
 package com.example.dmanager;
-
 import android.content.Intent;
 import android.os.Build;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.example.dmanager.entities.MenuItem;
 import com.example.dmanager.entities.Restaurant;
 import com.example.dmanager.entities.User;
+import com.example.dmanager.entities.UserRestaurant;
 import com.example.dmanager.entities.UserRole;
 import com.example.dmanager.helpers.Context;
 import com.example.dmanager.helpers.Roles;
@@ -22,16 +20,22 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import org.jetbrains.annotations.Nullable;
+import org.w3c.dom.Document;
 
+import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+
+/*
+@author: Anna Maria Meta
+@description: Base activity will contain the shared functionality among all activities in relation to Firestore database.
+ */
 
 public class BaseActivity extends AppCompatActivity {
 
@@ -41,7 +45,11 @@ public class BaseActivity extends AppCompatActivity {
     protected void initializeFirebaseAuth() {
         mAuth = FirebaseAuth.getInstance();
     }
-
+    protected void initializeFirestore(){
+        if(db==null){
+            db = FirebaseFirestore.getInstance();
+        }
+    }
     protected void signUp(User user){
         try {
             if (mAuth == null) initializeFirebaseAuth();
@@ -94,26 +102,7 @@ public class BaseActivity extends AppCompatActivity {
     }
 
 
-    protected Task signIn(String email, String password){
-            if (mAuth == null) initializeFirebaseAuth();
-
-            return mAuth.signInWithEmailAndPassword(email, password)
-                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            if (task.isSuccessful()) {
-                                try {
-                                    prepareContext(email, password).wait();
-                                }
-                                catch(Exception ex) {
-                                    System.out.println("Something went wrong. Try again later!");
-                                }
-                            } else {
-                                Toast.makeText(BaseActivity.this, "We can't find a user with this email!", Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                    });
-    }
+    /*Methods used for user sign in and context preparation*/
     @Nullable
     private Task prepareContext(String email, String password) {
         try {
@@ -142,12 +131,31 @@ public class BaseActivity extends AppCompatActivity {
             return null;
         }
     }
+    protected Task signIn(String email, String password){
+            if (mAuth == null) initializeFirebaseAuth();
 
+            return mAuth.signInWithEmailAndPassword(email, password)
+                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if (task.isSuccessful()) {
+                                try {
+                                    prepareContext(email, password).wait();
+                                }
+                                catch(Exception ex) {
+                                    System.out.println("Something went wrong. Try again later!");
+                                }
+                            } else {
+                                Toast.makeText(BaseActivity.this, "We can't find a user with this email!", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
+    }
     private void prepareRestaurantContext(String email) {
             initializeFirestore();
-            CollectionReference dbUsers = db.collection("Restaurants");
+            CollectionReference dbRestaurants = db.collection("Restaurants");
             // Create a query against the collection.
-            dbUsers.whereEqualTo("Email", email)
+            dbRestaurants.whereEqualTo("Email", email)
                     .limit(1)
                     .get().addOnSuccessListener(documents -> {
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
@@ -166,20 +174,8 @@ public class BaseActivity extends AppCompatActivity {
                                         document.get("Password").toString()
                                 );
 
-                                document.getReference().collection("Menu").get().addOnSuccessListener(items -> {
-                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                                        items.forEach(item -> {
-                                            MenuItem menuItem = new MenuItem();
-                                            menuItem.ItemPrice = item.get("ItemPrice").toString();
-                                            menuItem.ItemDescription = item.get("ItemDescription").toString();
-                                            menuItem.ItemIngredients = item.get("ItemIngredients").toString();
-                                            menuItem.ItemName = item.get("ItemName").toString();
 
-                                            Context.getInstance().activeRestaurant.MenuItems.add(menuItem);
-                                        });
-                                    }
-                                });
-
+                                getMenuItemsForRestuarant(document);
                                 //Redirect to RestaurantActivity
                                 Intent main = new Intent(BaseActivity.this, RestaurantActivity.class);
                                 startActivity(main);
@@ -187,6 +183,22 @@ public class BaseActivity extends AppCompatActivity {
                         }
                     }
             );
+    }
+    private Task getMenuItemsForRestuarant(QueryDocumentSnapshot restaurantDocument){
+        return restaurantDocument.getReference().collection("Menu").get().addOnSuccessListener(items -> {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                Context.getInstance().activeRestaurant.MenuItems = new ArrayList<MenuItem>();
+                items.forEach(item -> {
+                    MenuItem menuItem = new MenuItem();
+                    menuItem.ItemPrice = item.get("ItemPrice").toString();
+                    menuItem.ItemDescription = item.get("ItemDescription").toString();
+                    menuItem.ItemIngredients = item.get("ItemIngredients").toString();
+                    menuItem.ItemName = item.get("ItemName").toString();
+
+                    Context.getInstance().activeRestaurant.MenuItems.add(menuItem);
+                });
+            }
+        });
     }
     private void prepareUserContext(String email) {
             getUserData(email).continueWith(new Continuation() {
@@ -199,26 +211,47 @@ public class BaseActivity extends AppCompatActivity {
                         return dbRestaurants.get().addOnSuccessListener(restaurants -> {
                             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                                 restaurants.forEach(restaurant -> {
-                                    Context.getInstance().addRestaurant(
-                                            new Restaurant(
+                                            Restaurant newRestaurant = new Restaurant(
                                                     restaurant.get("RestaurantName").toString(),
                                                     "",
                                                     restaurant.get("RestaurantCity").toString(),
                                                     Integer.parseInt(restaurant.get("RestaurantStreetNr").toString()),
-                                                    restaurant.get("RestaurantStreet").toString()
-                                            )
-                                    );
-                                });
+                                                    restaurant.get("RestaurantStreet").toString(),
+                                                    restaurant.get("Email").toString()
+                                            );
+                                            try {
+                                                restaurant.getReference().collection("Menu")
+                                                        .get()
+                                                        .addOnSuccessListener(items -> {
+                                                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                                                                newRestaurant.MenuItems = new ArrayList<MenuItem>();
+                                                                items.forEach(item -> {
+                                                                    MenuItem menuItem = new MenuItem();
+                                                                    menuItem.ItemPrice = item.get("ItemPrice").toString();
+                                                                    menuItem.ItemDescription = item.get("ItemDescription").toString();
+                                                                    menuItem.ItemIngredients = item.get("ItemIngredients").toString();
+                                                                    menuItem.ItemName = item.get("ItemName").toString();
 
-                                //Redirect to user activity
-                                Intent main = new Intent(BaseActivity.this, UserActivity.class);
-                                startActivity(main);
-                            }
-                        });
-                    }
-                    else return null;
+                                                                    newRestaurant.MenuItems.add(menuItem);
+                                                                });
+                                                                Context.getInstance().addRestaurant(newRestaurant);
+                                                                if (Context.getInstance().userRestaurantEmails.contains(newRestaurant.Email)) {
+                                                                    Context.getInstance().lastViewedRestaurants.add(newRestaurant);
+                                                                }
+                                                            }
+                                                        });
+                                            } catch (Exception ex) {
+
+                                            }
+                                        });
+
+                                    //Redirect to user activity
+                                    Intent main = new Intent(BaseActivity.this, UserActivity.class);
+                                    startActivity(main);
+                                };
+                            });
+                    } else return null;
                 }
-
             });
     }
     private Task getUserData(String email) {
@@ -232,23 +265,37 @@ public class BaseActivity extends AppCompatActivity {
                     .addOnSuccessListener(documents -> {
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                             documents.forEach(document -> {
-                                // read document data and create the user object (that we will save after login)
-                                //PacientName, String PacientSurname,String PacientNumber, String LivingCity, Integer Age
-                                //save this user in global Context
+                                        // read document data and create the user object (that we will save after login)
+                                        //PacientName, String PacientSurname,String PacientNumber, String LivingCity, Integer Age
+                                        //save this user in global Context
 
-                                Context.getInstance().activeUser = new User(
-                                        document.get("PacientName").toString(),
-                                        document.get("PacientSurname").toString(),
-                                        document.get("PacientNumber").toString(),
-                                        document.get("LivingCity").toString(),
-                                        Integer.parseInt(document.get("Age").toString()),
-                                        document.get("Email").toString(),
-                                        document.get("Password").toString()
+                                        Context.getInstance().activeUser = new User(
+                                                document.get("PacientName").toString(),
+                                                document.get("PacientSurname").toString(),
+                                                document.get("PacientNumber").toString(),
+                                                document.get("LivingCity").toString(),
+                                                Integer.parseInt(document.get("Age").toString()),
+                                                document.get("Email").toString(),
+                                                document.get("Password").toString()
                                         );
-                            });
+                                        if(document.get("ForbiddenIngredients")!=null){
+                                            Context.getInstance().activeUser.ForbiddenIngredients = document.get("ForbiddenIngredients").toString();
+                                        }
+
+                                        CollectionReference userRestaurants = db.collection("UserRestaurant");
+                                        userRestaurants.whereEqualTo("UserEmail", Context.getInstance().activeUser.Email)
+                                                .get()
+                                                .addOnSuccessListener(restaurantEmails -> {
+                                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                                                        restaurantEmails.forEach(restaurant -> {
+                                                            Context.getInstance().userRestaurantEmails.add(restaurant.get("RestaurantEmail").toString());
+                                                        });
+                                                    }
+                                                });
+                                    }
+                            );
                         }
-                    }
-            );
+                    });
 
         }
         catch(Exception ex){
@@ -256,11 +303,9 @@ public class BaseActivity extends AppCompatActivity {
         }
         return null;
     }
-    protected void initializeFirestore(){
-        if(db==null){
-            db = FirebaseFirestore.getInstance();
-        }
-    }
+
+
+    /*Methods used for Crud of entities*/
     private void addUserToFirestore(User user) {
         try {
             initializeFirestore();
@@ -326,6 +371,88 @@ public class BaseActivity extends AppCompatActivity {
             Toast.makeText(BaseActivity.this, "Soemthing wrong happened!", Toast.LENGTH_SHORT).show();
         }
     }
+    public Task addMenuItemForRestaurant(MenuItem item){
+        try {
+            initializeFirestore();
+            CollectionReference dbRestaurants = db.collection("Restaurants");
+            return dbRestaurants.whereEqualTo("Email", Context.getInstance().activeRestaurant.Email)
+                    .limit(1)
+                    .get().addOnSuccessListener(documents -> {
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                            documents.forEach(document -> {
+                                CollectionReference dmMenuItems = document.getReference().collection("Menu");
+                                dmMenuItems.add(item).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                    @Override
+                                    public void onSuccess(DocumentReference documentReference) {
+                                        Toast.makeText(BaseActivity.this, "Your item has been added to the menu!", Toast.LENGTH_SHORT).show();
+
+                                        getMenuItemsForRestuarant(document);
+                                        Intent menu = new Intent(BaseActivity.this, MenuActivity.class);
+                                        startActivity(menu);
+                                    }
+                                });
+                            });
+                        }
+                    }
+                );
+        }
+        catch(Exception ex){
+            //here we should have logging in production but for the purpose of this project we can just alert users
+            Toast.makeText(BaseActivity.this, "Something went wrong!", Toast.LENGTH_SHORT).show();
+            return null;
+        }
+    }
+    public void removeActiveMenuItem(MenuItem menuItem, String restaurantEmail){
+        try {
+            initializeFirestore();
+            CollectionReference dbRestaurants = db.collection("Restaurants");
+            dbRestaurants.whereEqualTo("Email", restaurantEmail)
+                    .limit(1)
+                    .get().addOnSuccessListener(documents -> {
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                                    documents.forEach(document -> {
+                                        CollectionReference dmMenuItems = document.getReference().collection("Menu");
+                                        dmMenuItems.whereEqualTo("ItemName", menuItem.ItemName)
+                                                .get()
+                                                .addOnSuccessListener(items -> {
+                                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                                                        items.forEach(item -> {
+                                                            item.getReference().delete();
+                                                        });
+                                                    }
+
+                                                    //also deleted it from context
+                                                    Context.getInstance().activeRestaurant.MenuItems.remove(menuItem);
+
+                                                    Intent menu = new Intent(BaseActivity.this, MenuActivity.class);
+                                                    startActivity(menu);
+                                                });
+
+                                    });
+                                }
+                            }
+                    );
+        }
+        catch(Exception ex) {
+            //here we should have logging in production but for the purpose of this project we can just alert users
+            Toast.makeText(BaseActivity.this, "Something went wrong!", Toast.LENGTH_SHORT).show();
+        }
+    }
+    public void addUserFavoriteRestaurant(UserRestaurant userRestaurant){
+        try {
+            if(!Context.getInstance().userRestaurantEmails.contains(userRestaurant.RestaurantEmail)) {
+                initializeFirestore();
+                CollectionReference dbUserRestaurants = db.collection("UserRestaurant");
+                dbUserRestaurants.add(userRestaurant);
+            }
+        }
+        catch(Exception ex){
+            //here we should have logging in production but for the purpose of this project we can just alert users
+            Toast.makeText(BaseActivity.this, "Something went wrong!", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+
 
     /*Methods used for validation*/
     protected boolean hasOnlyDigits(String str){
@@ -367,8 +494,5 @@ public class BaseActivity extends AppCompatActivity {
             iSum += iDigit;
         }
         return (iSum % 10 == 0);
-    }
-    protected boolean isValidPhoneNumber(String str){
-        return (str!=null && !str.isEmpty() && hasOnlyDigits(str) && str.length()==10);
     }
 }

@@ -7,11 +7,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.example.dmanager.helpers.StaticHelpers;
-import com.google.android.gms.tasks.Continuation;
-import com.google.android.gms.tasks.Task;
+import com.example.dmanager.helpers.Context;
 import com.google.firebase.auth.FirebaseUser;
 
 public class LoginActivity extends BaseActivity {
@@ -26,9 +23,12 @@ public class LoginActivity extends BaseActivity {
         setContentView(R.layout.activity_login);
         initializeFirebaseAuth();
         FirebaseUser currentUser = mAuth.getCurrentUser();
-        btnUser = (Button)findViewById(R.id.btnUser);
+        btnUser = (Button)findViewById(R.id.btnAddItem);
         btnRest = (Button)findViewById(R.id.btnRest);
         email = findViewById(R.id.email);
+        if(Context.getInstance().LastSignedInEmail!=null){
+            email.setText(Context.getInstance().LastSignedInEmail);
+        }
         password = findViewById(R.id.password);
         loginButton = findViewById(R.id.login);
 

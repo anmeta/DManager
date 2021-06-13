@@ -14,7 +14,7 @@ import androidx.appcompat.widget.Toolbar;
 import com.example.dmanager.helpers.Context;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-public class MenuActivity extends BaseActivity {
+public class RestaurantMenuActivity extends BaseActivity {
     LinearLayout layout;
     ListView details;
     Button addItem;
@@ -23,7 +23,7 @@ public class MenuActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
         Toolbar toolbar = findViewById(R.id.toolbar);
-        toolbar.setTitle(Context.getInstance().activeRestaurant.getFullName());
+        toolbar.setTitle("Menu of "+Context.getInstance().lastViewedRestaurants.get(0).getFullName());
         setSupportActionBar(toolbar);
 
         FloatingActionButton fab = findViewById(R.id.fab);
@@ -31,7 +31,7 @@ public class MenuActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
                 Context.getInstance().cleanContext();
-                Intent main = new Intent(MenuActivity.this, LoginActivity.class);
+                Intent main = new Intent(RestaurantMenuActivity.this, LoginActivity.class);
                 startActivity(main);
             }
         });
@@ -40,26 +40,21 @@ public class MenuActivity extends BaseActivity {
         details = (ListView)findViewById(R.id.details);
         ArrayAdapter<String> arrayAdapter =
                 new ArrayAdapter<String>(this,
-                        R.layout.detail_item, R.id.detail, Context.getInstance().activeRestaurant.getMenuItems());
+                        R.layout.detail_item, R.id.detail,
+                        Context.getInstance().lastViewedRestaurants.get(0).getMenuItems());
         details.setAdapter(arrayAdapter);
         details.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
         details.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Context.getInstance().activeMenuItem = Context.getInstance().activeRestaurant.MenuItems.get(position);
-                Intent menuItem = new Intent(MenuActivity.this, MenuItemActivity.class);
+                Context.getInstance().activeMenuItem = Context.getInstance().lastViewedRestaurants.get(0).MenuItems.get(position);
+                Intent menuItem = new Intent(RestaurantMenuActivity.this, MenuItemAnalyzeActivity.class);
                 startActivity(menuItem);
             }
         });
 
         addItem = findViewById(R.id.addItem).findViewById(R.id.button);
-        addItem.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent addMenuItemActivity = new Intent(MenuActivity.this, AddMenuItemActivity.class);
-                startActivity(addMenuItemActivity);
-            }
-        });
+        addItem.setVisibility(View.INVISIBLE);
 
 
 

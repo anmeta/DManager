@@ -1,5 +1,6 @@
 package com.example.dmanager.ui.general;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,12 +12,17 @@ import android.widget.Toast;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.dmanager.BaseActivity;
 import com.example.dmanager.R;
+import com.example.dmanager.RestaurantMenuActivity;
+import com.example.dmanager.UserActivity;
 import com.example.dmanager.entities.Restaurant;
+import com.example.dmanager.entities.UserRestaurant;
 import com.example.dmanager.helpers.Context;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.prefs.BackingStoreException;
 
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.RecyclerItemViewHolder> {
     int mLastPosition = 0;
@@ -58,8 +64,15 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Recycl
             mainLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Context.getInstance().addViewedRestaurant(Context.getInstance().restaurantsForDisplay.get(getPosition()));
-                    Toast.makeText(itemView.getContext(), "Position:" + Integer.toString(getPosition()), Toast.LENGTH_SHORT).show();
+                    Restaurant viewedRestaurant = Context.getInstance().restaurantsForDisplay.get(getPosition());
+                    Context.getInstance().addViewedRestaurant(viewedRestaurant);
+
+                    BaseActivity base = new BaseActivity();
+                    base.addUserFavoriteRestaurant(
+                            new UserRestaurant(Context.getInstance().activeUser.Email, viewedRestaurant.Email, true));
+
+                    Intent restaurantMenu = new Intent(parent.getContext(), RestaurantMenuActivity.class);
+                    parent.getContext().startActivity(restaurantMenu);
                 }
             });
             crossImage.setOnClickListener(new AdapterView.OnClickListener() {

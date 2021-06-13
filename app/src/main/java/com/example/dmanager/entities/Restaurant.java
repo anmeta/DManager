@@ -23,12 +23,13 @@ public class Restaurant {
         this.Password = Password;
     }
     public Restaurant(String RestaurantName,String RestaurantPhone,String RestaurantCity,
-                      Integer RestaurantStreetNr, String RestaurantStreet){
+                      Integer RestaurantStreetNr, String RestaurantStreet, String Email){
         this.RestaurantName= RestaurantName;
         this.RestaurantPhone= RestaurantPhone;
         this.RestaurantCity= RestaurantCity;
         this.RestaurantStreetNr =RestaurantStreetNr;
-        this.RestaurantStreet= RestaurantStreet;
+        this.RestaurantStreet = RestaurantStreet;
+        this.Email = Email;
     }
     public String getFullName(){
         return this.RestaurantName + " " ;
@@ -36,10 +37,10 @@ public class Restaurant {
 
     public ArrayList<String> getDetails() {
         ArrayList<String> details = new ArrayList<String>();
-        details.add("NAME      " + this.RestaurantName);
-        details.add("PHONE     " + this.RestaurantPhone);
-        details.add("ADDRESS   " + this.RestaurantStreet + " " + this.RestaurantStreetNr);
-        details.add("CITY      " + this.RestaurantCity);
+        details.add("NAME            " + this.RestaurantName);
+        details.add("PHONE          " + this.RestaurantPhone);
+        details.add("ADDRESS      " + this.RestaurantStreet + " " + this.RestaurantStreetNr);
+        details.add("CITY                 " + this.RestaurantCity);
 
         return details;
     }

@@ -25,7 +25,7 @@
         android:orientation="vertical">
 
         <com.rengwuxian.materialedittext.MaterialEditText
-            android:id="@+id/PacientNumber"
+            android:id="@+id/ItemName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
 
@@ -42,7 +42,7 @@
             app:met_singleLineEllipsis="true" />
 
         <com.rengwuxian.materialedittext.MaterialEditText
-            android:id="@+id/Age"
+            android:id="@+id/ItemDescription"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
 
@@ -59,7 +59,7 @@
             app:met_singleLineEllipsis="true" />
 
         <com.rengwuxian.materialedittext.MaterialEditText
-            android:id="@+id/LivingCity"
+            android:id="@+id/ItemIngredients"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
 
@@ -76,7 +76,7 @@
             app:met_singleLineEllipsis="true" />
 
         <com.rengwuxian.materialedittext.MaterialEditText
-            android:id="@+id/PacientName"
+            android:id="@+id/ItemPrice"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
 
@@ -145,7 +145,7 @@
     </LinearLayout>
 
     <Button
-        android:id="@+id/btnUser"
+        android:id="@+id/btnAddItem"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"

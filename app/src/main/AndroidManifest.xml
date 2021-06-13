@@ -24,6 +24,18 @@
             android:name=".UserActivity"
             android:label="@string/title_activity_user"
             android:theme="@style/Theme.DManager.NoActionBar" />
+        <activity
+            android:name=".AddMenuItemActivity"
+            android:label="@string/title_add_menuItem"/>
+        <activity
+            android:name=".MenuItemActivity"
+            android:label="@string/title_menuItem"/>
+        <activity
+            android:name=".RestaurantMenuActivity"
+            android:label="@string/menu_restaurants"/>
+        <activity
+            android:name=".MenuItemAnalyzeActivity"
+            android:label="@string/title_menuItem"/>
 
         <activity android:name=".RestaurantSignUp" />
         <activity android:name=".UserSignUp" />

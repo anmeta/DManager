@@ -21,14 +21,14 @@ public class UserSignUp extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_sign_up);
-        PacientNumber = (MaterialEditText)findViewById(R.id.PacientNumber);
-        PacientName = (MaterialEditText)findViewById(R.id.PacientName);
+        PacientNumber = (MaterialEditText)findViewById(R.id.ItemName);
+        PacientName = (MaterialEditText)findViewById(R.id.ItemPrice);
         PacientSurname = (MaterialEditText)findViewById(R.id.PacientSurname);
-        Age = (MaterialEditText)findViewById(R.id.Age);
-        LivingCity = (MaterialEditText)findViewById(R.id.LivingCity);
+        Age = (MaterialEditText)findViewById(R.id.ItemDescription);
+        LivingCity = (MaterialEditText)findViewById(R.id.ItemIngredients);
         Email = (MaterialEditText)findViewById(R.id.Email);
         Password = (MaterialEditText)findViewById(R.id.Password);
-        btnUser = (Button)findViewById(R.id.btnUser);
+        btnUser = (Button)findViewById(R.id.btnAddItem);
 
         //Write error in the screen
         String error = getIntent().getStringExtra("ERROR_MSG");

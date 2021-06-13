@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -35,8 +36,8 @@ public class RestaurantActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
                 Context.getInstance().cleanContext();
-                Intent main = new Intent(RestaurantActivity.this, LoginActivity.class);
-                startActivity(main);
+                Intent login = new Intent(RestaurantActivity.this, LoginActivity.class);
+                startActivity(login);
             }
         });
 

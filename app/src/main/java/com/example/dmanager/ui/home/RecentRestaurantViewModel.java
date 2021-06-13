@@ -10,7 +10,7 @@ public class RecentRestaurantViewModel extends ViewModel {
 
     public RecentRestaurantViewModel() {
         mText = new MutableLiveData<>();
-        mText.setValue("Here we will list of restaurants");
+        mText.setValue("Here we list your favorite restaurants");
     }
 
     public LiveData<String> getText() {

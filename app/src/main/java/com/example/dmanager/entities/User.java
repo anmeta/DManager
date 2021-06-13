@@ -8,7 +8,7 @@ public class User {
     public String Email;
     public String Password;
     public Integer Age;
-
+    public String ForbiddenIngredients;
     public User(String PacientName, String PacientSurname,String PacientNumber,
                 String LivingCity, Integer Age, String Email, String Password) {
         this.PacientName = PacientName;

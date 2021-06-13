@@ -20,7 +20,7 @@
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"Login failed"</string>
     <string name="title_activity_user">MainActivity</string>
-    <string name="title_home">Home</string>
+    <string name="title_home">Favorites</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
@@ -39,6 +39,8 @@
     <string name="menu_restaurants">Restaurants</string>
     <string name="title_activity_restaurant">Restaurant</string>
     <string name="title_activity_menu">Your Menu</string>
+    <string name="title_add_menuItem">Add menu item</string>
+    <string name="title_menuItem">Menu item</string>
     <string name="menu_slideshow">Slideshow</string>
     <string name="menu_update">Update</string>
     <string name="menu_menu">Menu</string>
